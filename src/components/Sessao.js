@@ -5,6 +5,7 @@ import axios from "axios";
 import Footer from './Footer'
 import Assentos from "./Assentos";
 
+
 export default function Sessao() {
     const { sessaoId } = useParams();
     const [sessao, setSessao] = useState();
@@ -19,7 +20,6 @@ export default function Sessao() {
         <Conteudo>
             <StyledP>Selecione o(s) assento(s)</StyledP>
             {sessao && <Assentos seats={sessao.seats} />}
-
             {sessao &&
                 <Footer
                     poster={sessao.movie.posterURL}
@@ -35,12 +35,12 @@ display:flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-
-
 `
+
 
 const StyledP = styled.p`
     font-size: 24px;
     color: white;
     margin:50px 0px 30px 0px;
 `
+

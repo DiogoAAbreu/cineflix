@@ -32,6 +32,7 @@ justify-content: center;
 const TituloPagina = styled.h1`
 color: red;
 font-size: 34px;
+font-weight: 700;
 transition: font-size 0.1s linear ;
 &:hover{
     font-size: 40px;
