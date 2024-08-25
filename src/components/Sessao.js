@@ -15,11 +15,15 @@ export default function Sessao() {
         promise.then(res => setSessao(res.data))
     }, [])
 
-
     return (
         <Conteudo>
             <StyledP>Selecione o(s) assento(s)</StyledP>
-            {sessao && <Assentos seats={sessao.seats} />}
+            {sessao && <Assentos
+                seats={sessao.seats}
+                titulo={sessao.movie.title}
+                diaSemana={sessao.day.weekday}
+                date={sessao.day.date}
+                hora={sessao.name} />}
             {sessao &&
                 <Footer
                     poster={sessao.movie.posterURL}

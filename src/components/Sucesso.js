@@ -1,10 +1,11 @@
 import styled from "styled-components"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 export default function Sucesso() {
 
     const location = useLocation();
-    console.log(location)
+    const navigate = useNavigate();
+    const { assentos, cpf, name, titulo, date, hora } = location.state;
 
     return (
         <Conteudo>
@@ -12,17 +13,19 @@ export default function Sucesso() {
                 <p>Pedido feito com sucesso</p>
                 <StyledDiv>
                     <p>Filme e Sessão</p>
-                    <span>teste</span>
+                    <span>{titulo}</span>
+                    <span>{date} - {hora}</span>
                 </StyledDiv>
                 <StyledDiv>
                     <p>Ingresso</p>
-                    <span>teste</span>
+                    {assentos.map((assento, index) => <span key={index}>Assento {assento}</span>)}
                 </StyledDiv>
                 <StyledDiv>
                     <p>Comprador</p>
-                    <span>teste</span>
+                    <span>Nome: {name}</span>
+                    <span>CPF: {cpf}</span>
                 </StyledDiv>
-                <StyledButton>Voltar para Home</StyledButton>
+                <StyledButton onClick={() => navigate('/')}>Voltar para Home</StyledButton>
             </div>
 
         </Conteudo>
@@ -33,8 +36,10 @@ const Conteudo = styled.div`
 width: 100%;
 display: flex;
 justify-content: center;
+box-sizing: border-box;
 
  div{
+    box-sizing: border-box;
     margin-top: 40px;
     background-color: #666666;
     width: 360px;
@@ -55,6 +60,7 @@ justify-content: center;
 const StyledDiv = styled.div`
 &&{display: flex;
 align-items: start;
+margin: 5px;
 }
 p{
     color:  white;
@@ -63,6 +69,7 @@ p{
 span{
     color: white;
     margin-top: 5px;
+    font-size: 22px;
 }
 `
 

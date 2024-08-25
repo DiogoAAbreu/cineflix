@@ -2,13 +2,20 @@ import styled from "styled-components"
 import Formulario from "./Formulario";
 import { useState } from "react";
 
-export default function Assentos({ seats }) {
+export default function Assentos({ seats,
+    titulo,
+    diaSemana,
+    date,
+    hora
+}) {
     const [usuario, setUsuario] = useState({
         ids: [],
         name: '',
         cpf: ''
-    })
-    console.log(usuario)
+    });
+
+    const [assentosNum, setAssentosNum] = useState([]);
+
     return (
         <AssentosDiv
             $setUsuario={setUsuario}
@@ -19,7 +26,10 @@ export default function Assentos({ seats }) {
                     disponivel={seat.isAvailable}
                     $setUsuario={setUsuario}
                     $usuario={usuario}
-                    assentoId={seat.id}>
+                    assentoId={seat.id}
+                    assentoNum={seat.name}
+                    assentosNum={assentosNum}
+                    setAssentosNum={setAssentosNum}>
                     {seat.name}
                 </Assento>)}
             <Exemplo>
@@ -38,12 +48,29 @@ export default function Assentos({ seats }) {
                     Indisponível
                 </div>
             </Exemplo>
-            <Formulario $setUsuario={setUsuario} $usuario={usuario} />
+            <Formulario
+                $setUsuario={setUsuario}
+                $usuario={usuario}
+                assentos={assentosNum}
+                titulo={titulo}
+                diaSemana={diaSemana}
+                date={date}
+                hora={hora}
+            />
         </AssentosDiv>
     )
 }
 
-function Assento({ children, disponivel, corExemplo, $setUsuario, $usuario, assentoId }) {
+function Assento({
+    children,
+    disponivel,
+    corExemplo,
+    $setUsuario,
+    $usuario,
+    assentoId,
+    assentoNum,
+    assentosNum,
+    setAssentosNum }) {
     const [selecionado, setSelecionado] = useState('grey');
 
     function selecionar() {
@@ -57,12 +84,16 @@ function Assento({ children, disponivel, corExemplo, $setUsuario, $usuario, asse
                 ...$usuario,
                 ids: [...$usuario.ids, assentoId]
             });
+
+            setAssentosNum([...assentosNum, assentoNum]);
         } else {
             setSelecionado('grey')
             $setUsuario({
                 ...$usuario,
                 ids: $usuario.ids.filter(value => value !== assentoId)
-            })
+            });
+
+            setAssentosNum(assentosNum.filter(value => value !== assentoNum))
         }
     }
 

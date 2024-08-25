@@ -2,11 +2,25 @@ import axios from "axios";
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
 
-export default function Formulario({ $setUsuario, $usuario }) {
+export default function Formulario({
+    $setUsuario,
+    $usuario,
+    assentos,
+    titulo,
+    diaSemana,
+    date,
+    hora }) {
+
+    const cpfMask = value => {
+        return value
+            .replace(/\D/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1')
+    }
 
     const navigate = useNavigate();
-
-
 
     function handleForm(event) {
         event.preventDefault();
@@ -15,7 +29,7 @@ export default function Formulario({ $setUsuario, $usuario }) {
         }
         const promise = axios.post('https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many', $usuario)
         promise.then(
-            navigate('/sucesso', { state: { ...$usuario, } })
+            navigate('/sucesso', { state: { ...$usuario, assentos, titulo, diaSemana, date, hora } })
         )
         $setUsuario({ ids: [], name: '', cpf: '' })
     }
@@ -24,7 +38,9 @@ export default function Formulario({ $setUsuario, $usuario }) {
             <label htmlFor="name">Nome do comprador:</label>
             <input required
                 name="name"
+                id="name"
                 placeholder="Digite seu nome..."
+                value={$usuario.name}
                 onChange={e => $setUsuario({
                     ...$usuario,
                     [e.target.name]: e.target.value
@@ -32,11 +48,14 @@ export default function Formulario({ $setUsuario, $usuario }) {
 
             <label htmlFor="cpf">CPF do comprador:</label>
             <input required
+                maxLength='14'
+                id="cpf"
                 name="cpf"
+                value={$usuario.cpf}
                 placeholder="Digite seu CPF..."
                 onChange={e => $setUsuario({
                     ...$usuario,
-                    [e.target.name]: e.target.value
+                    [e.target.name]: cpfMask(e.target.value)
                 })} />
 
             <button type="submit">Reservar assento(s)</button>

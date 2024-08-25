@@ -59,6 +59,7 @@ button {
     color: inherit; /* Opcional: herda a cor do texto do elemento pai */
 }
 body{
+	box-sizing: border-box;
     font-family: "Roboto", sans-serif;
     box-sizing:border-box;
 	background-color: #2c2c2c;
